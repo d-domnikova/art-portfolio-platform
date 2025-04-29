@@ -1,7 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import "tailwindcss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@theme {
+  --color-smoky: #0d0809;
+  --color-bone: #cacab9;
+  --color-cardinal: #c4313b;
+
+  --font-manrope: "Manrope";
+  --font-noto: "Noto Sans"
 }
