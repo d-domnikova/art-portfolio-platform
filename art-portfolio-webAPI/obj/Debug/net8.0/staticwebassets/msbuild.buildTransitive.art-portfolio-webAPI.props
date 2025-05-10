@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\art-portfolio-webAPI.props" />
-</Project>
