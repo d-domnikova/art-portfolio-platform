@@ -7,11 +7,11 @@ namespace DAL.Repositories
 {
     public class LikedPostRepository : GenericRepository<LikedPost>, ILikedPostRepository
     {
-        public LikedPostRepository(PlatformContext platformContext, DbSet<LikedPost> dbSet) : base(platformContext, dbSet) {}
+        public LikedPostRepository(PlatformContext platformContext) : base(platformContext) {}
 
         public async Task<LikedPost> GetByUserIdAndPostIdAsync(Guid userId, Guid postId)
         {
-            return await _dbSet.FirstOrDefaultAsync(likedPost => likedPost.UserId == userId && likedPost.PostId == postId);
+            return await _platformContext.Set<LikedPost>().FirstOrDefaultAsync(likedPost => likedPost.UserId == userId && likedPost.PostId == postId);
         }
 
         public async Task<IEnumerable<LikedPost>> GetAllForPostAsync(Guid postId)

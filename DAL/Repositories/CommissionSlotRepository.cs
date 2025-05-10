@@ -7,7 +7,7 @@ namespace DAL.Repositories
 {
     public class CommissionSlotRepository : GenericRepository<CommissionSlot>, ICommissionSlotRepository
     {
-        public CommissionSlotRepository(PlatformContext platformContext, DbSet<CommissionSlot> dbSet) : base(platformContext, dbSet)
+        public CommissionSlotRepository(PlatformContext platformContext) : base(platformContext)
         {
         }
 

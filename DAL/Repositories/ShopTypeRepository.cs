@@ -7,7 +7,7 @@ namespace DAL.Repositories
 {
     public class ShopTypeRepository : GenericRepository<ShopType>, IShopTypeRepository
     {
-        public ShopTypeRepository(PlatformContext platformContext, DbSet<ShopType> dbSet) : base(platformContext, dbSet)
+        public ShopTypeRepository(PlatformContext platformContext) : base(platformContext)
         {
         }
     }

@@ -2,7 +2,6 @@
 {
     public class UpdateShopItem
     {
-        public Guid Id { get; set; }
         public string ItemName { get; set; }
         public string? ItemDescription { get; set; }
         public string PreviewImage { get; set; }

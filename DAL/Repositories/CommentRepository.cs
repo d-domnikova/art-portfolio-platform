@@ -7,7 +7,7 @@ namespace DAL.Repositories
 {
     public class CommentRepository : GenericRepository<Comment>, ICommentRepository
     {
-        public CommentRepository(PlatformContext platformContext, DbSet<Comment> dbSet) : base(platformContext, dbSet)
+        public CommentRepository(PlatformContext platformContext) : base(platformContext)
         {
         }
 

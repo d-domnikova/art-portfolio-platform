@@ -13,3 +13,4 @@ D:\Studying\s_6\Курсова\art-portfolio-platform\BLL\obj\Debug\net8.0\ref\B
 D:\Studying\s_6\Курсова\art-portfolio-platform\BLL\bin\Debug\net8.0\DAL.dll
 D:\Studying\s_6\Курсова\art-portfolio-platform\BLL\bin\Debug\net8.0\DAL.pdb
 D:\Studying\s_6\Курсова\art-portfolio-platform\BLL\obj\Debug\net8.0\BLL.csproj.Up2Date
+D:\Studying\s_6\Курсова\art-portfolio-platform\BLL\obj\Debug\net8.0\BLL.sourcelink.json

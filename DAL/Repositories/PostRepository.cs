@@ -7,7 +7,7 @@ namespace DAL.Repositories
 {
     public class PostRepository : GenericRepository<Post>, IPostRepository
     {
-        public PostRepository(PlatformContext platformContext, DbSet<Post> dbSet) : base(platformContext, dbSet) {}
+        public PostRepository(PlatformContext platformContext) : base(platformContext) {}
 
         public async Task<IEnumerable<Post>> FindByKeywordAsync(string keyword)
         {

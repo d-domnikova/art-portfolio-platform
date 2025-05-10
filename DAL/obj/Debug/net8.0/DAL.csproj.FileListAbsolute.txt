@@ -12,3 +12,4 @@ D:\Studying\s_6\Курсова\art-portfolio-platform\DAL\obj\Debug\net8.0\refin
 D:\Studying\s_6\Курсова\art-portfolio-platform\DAL\obj\Debug\net8.0\DAL.pdb
 D:\Studying\s_6\Курсова\art-portfolio-platform\DAL\obj\Debug\net8.0\DAL.genruntimeconfig.cache
 D:\Studying\s_6\Курсова\art-portfolio-platform\DAL\obj\Debug\net8.0\ref\DAL.dll
+D:\Studying\s_6\Курсова\art-portfolio-platform\DAL\obj\Debug\net8.0\DAL.sourcelink.json

@@ -8,27 +8,27 @@ namespace DAL.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly PlatformContext _platformContext;
-        protected readonly DbSet<T> _dbSet;
+       // protected readonly DbSet<T> _dbSet;
 
-        public GenericRepository(PlatformContext platformContext, DbSet<T> dbSet)
+        public GenericRepository(PlatformContext platformContext)
         {
             _platformContext = platformContext;
-            _dbSet = this._platformContext.Set<T>();
+           // _dbSet = this._platformContext.Set<T>();
         }
 
-        public async Task<T> GetByIdAsync(Guid id) => await _dbSet.FindAsync(id);
+        public async Task<T> GetByIdAsync(Guid id) => await _platformContext.Set<T>().FindAsync(id);
         
-        public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
+        public async Task<IEnumerable<T>> GetAllAsync() => await _platformContext.Set<T>().ToListAsync();
 
-        public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
+        public async Task AddAsync(T entity) => await _platformContext.Set<T>().AddAsync(entity);
 
-        public async Task AddRangeAsync(IEnumerable<T> entities) => await _dbSet.AddRangeAsync(entities);
+        public async Task AddRangeAsync(IEnumerable<T> entities) => await _platformContext.Set<T>().AddRangeAsync(entities);
 
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) => await _dbSet.Where(predicate).ToListAsync();
-        public void Update(T entity) =>  _dbSet.Update(entity);
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) => await _platformContext.Set<T>().Where(predicate).ToListAsync();
+        public void Update(T entity) => _platformContext.Set<T>().Update(entity);
 
-        public void Remove(T entity) => _dbSet.Remove(entity);
+        public void Remove(T entity) => _platformContext.Set<T>().Remove(entity);
 
-        public void RemoveRange(IEnumerable<T> entities) => _dbSet.RemoveRange(entities);
+        public void RemoveRange(IEnumerable<T> entities) => _platformContext.Set<T>().RemoveRange(entities);
     }
 }

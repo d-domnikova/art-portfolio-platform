@@ -7,7 +7,7 @@ namespace DAL.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        public UserRepository(PlatformContext platformContext, DbSet<User> dbSet) : base(platformContext, dbSet)
+        public UserRepository(PlatformContext platformContext) : base(platformContext)
         {
         }
 
