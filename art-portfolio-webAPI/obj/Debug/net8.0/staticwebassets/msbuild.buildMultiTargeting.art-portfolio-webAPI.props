@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\art-portfolio-webAPI.props" />
+</Project>
