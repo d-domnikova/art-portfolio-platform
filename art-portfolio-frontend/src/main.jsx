@@ -1,11 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+
 import './index.css';
 import App from './App';
+import Header from './components/pagesComponents/Header'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+    <Header />
+    <main className='px-8 pb-8'>
+      <App/>
+    </main>
+    </BrowserRouter>
   </React.StrictMode>
 );
