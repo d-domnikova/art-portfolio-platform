@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BLL.DTO.User;
 using BLL.Services.Interfaces;
+using DAL.Context;
 using DAL.Models;
 using DAL.Repositories.Interfaces;
+using System.Linq.Expressions;
 
 namespace BLL.Services
 {
@@ -10,11 +12,13 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly PlatformContext _platformContext;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, PlatformContext platformContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _platformContext = platformContext;
         }
 
         public async Task CreateAsync(CreateUser createUser)
@@ -60,17 +64,17 @@ namespace BLL.Services
             return _mapper.Map<UserResponse>(user);
         }
 
-        public async Task<UserResponse> FindByCredentialAsync(string credential)
+        public async Task<IEnumerable<UserResponse>> FindByCredentialAsync(string attribute, string value)
         {
-            if (credential.Contains('@'))
-            {
-                var user = await _unitOfWork.UserRepository.FindByEmailAsync(credential);
-                return _mapper.Map<UserResponse>(user);
-            }
-            else {
-                var user = await _unitOfWork.UserRepository.FindByUsernameAsync(credential);
-                return _mapper.Map<UserResponse>(user);
-            }
+            var parameter = Expression.Parameter(typeof(User));
+            var propertyExpression = Expression.Property(parameter, attribute);
+            var valueExpression = Expression.Constant(value);
+            var comparisonExpression = Expression.Equal(propertyExpression, valueExpression);
+            var lambdaExpression = Expression.Lambda<Func<User, bool>>(comparisonExpression, parameter);
+
+            var user = await _unitOfWork.UserRepository.FindAsync(lambdaExpression);
+            var userResponse = _mapper.Map<IEnumerable<UserResponse>>(user);
+            return userResponse;
         }
     }
 }

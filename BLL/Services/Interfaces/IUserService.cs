@@ -9,6 +9,6 @@ namespace BLL.Services.Interfaces
         Task CreateAsync(CreateUser createUser);
         Task UpdateAsync(Guid id, UpdateUser updateUser);
         Task DeleteAsync(Guid id);
-        Task<UserResponse> FindByCredentialAsync(string credential);
+        Task<IEnumerable<UserResponse>> FindByCredentialAsync(string attribute, string credential);
     }
 }

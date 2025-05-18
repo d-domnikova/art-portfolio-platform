@@ -8,6 +8,7 @@ namespace DAL.Repositories.Interfaces
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
+        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
         void Update(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace art_portfolio_webAPI.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/comment/")]
     public class CommentController : ControllerBase

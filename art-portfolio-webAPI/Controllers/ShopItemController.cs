@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace art_portfolio_webAPI.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/shopItem/")]
     public class ShopItemController : ControllerBase

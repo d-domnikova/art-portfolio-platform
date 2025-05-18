@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace art_portfolio_webAPI.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/user/")]
     public class UserController : ControllerBase
