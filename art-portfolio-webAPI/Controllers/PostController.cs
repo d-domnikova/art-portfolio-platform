@@ -1,6 +1,8 @@
 ﻿using BLL.DTO.Comment;
 using BLL.DTO.LikedPost;
 using BLL.DTO.Post;
+using BLL.DTO.User;
+using BLL.Services;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -85,6 +87,15 @@ namespace art_portfolio_webAPI.Controllers
             return Ok(likedPosts);
         }
 
-        //search request
+        [HttpGet("search/{value}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetPostsByParam(string value)
+        {
+            var posts = await _postService.FindByKeywordAsync(value);
+            if (posts == null)
+                return NotFound();
+
+            return Ok(posts);
+        }
     }
 }

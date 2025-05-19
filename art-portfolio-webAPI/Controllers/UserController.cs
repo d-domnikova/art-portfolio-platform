@@ -42,6 +42,17 @@ namespace art_portfolio_webAPI.Controllers
             return Ok(user);
         }
 
+        [HttpGet("{attribute}/{value}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetUserByParam(string attribute, string value)
+        {
+            var users = await _userService.FindByCredentialAsync(attribute, value);
+            if (users == null)
+                return NotFound();
+
+            return Ok(users);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] CreateUser createUser)
         {

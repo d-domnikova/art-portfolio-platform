@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import FormContext from './SignUpFormContext';
+import axios from 'axios';
 
 export default function SignUpFirstPage(){
     const { credentials, setCredentials, next} = useContext(FormContext);
@@ -15,8 +16,44 @@ export default function SignUpFirstPage(){
     const handleSubmit = (e) => {
         e.preventDefault();
         setCredentials(credentials);
-        next();
+        const newErrors = validateForm(credentials);
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+           next();
+        }
     }
+
+    const [errors, setErrors] = useState({});
+
+    const validateForm = (data) => {
+        const errors = {};
+
+        if (!data.username.trim()) {
+            errors.username = 'Username is required';
+        } else if (data.username.length < 6) {
+            errors.username = 'Username must be at least 6 characters long';
+        } else {
+            axios.get(`https://localhost:7029/api/user/username/${data.username}`)
+            .then(response => {
+              if(response.data.length != 0) 
+                {errors.credential = "This username is already taken"};
+          })
+        }
+
+        if (!data.email.trim()) {
+            errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(data.email)) {
+            errors.email = 'Invalid email';
+        } else {
+         axios.get(`https://localhost:7029/api/user/email/${data.email}`)
+            .then(response => {
+              if(response.data.length != 0) 
+                {errors.credential = "This email is already taken"};
+         })
+        }
+        return errors;
+    };
 
     return (
     <div className="md:grid md:grid-cols-7 h-full gap-3 w-full h-full">
@@ -32,8 +69,12 @@ export default function SignUpFirstPage(){
                 <p className="-mt-1">Create an account to get started</p>
                 <input type="text" name={"username"} value={credentials.username} onChange={handleChange}
                         className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Username" required/> 
+                        {errors.username && ( <span className="error-message -mt-3 text-sm text-red-500"> {errors.username}</span>)}
+
                 <input type="text" name={"email"} value={credentials.email} onChange={handleChange}
                         className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Email" required/>
+                        {errors.email && ( <span className="error-message -mt-3 text-sm text-red-500"> {errors.email}</span>)}
+
                 <input type="date" name={"dateOfBirth"} value={credentials.dateOfBirth} onChange={handleChange}
                         className='block py-2 px-4 border border-bone rounded-lg' required/>
                 <button type="submit" onClick={handleSubmit} 
@@ -41,5 +82,6 @@ export default function SignUpFirstPage(){
                 <p>Already have an account? <a href="/login" className="font-bold text-cardinal">Log in</a></p>
             </div>
         </div>
-    </div>)
+    </div>
+    )
 }
