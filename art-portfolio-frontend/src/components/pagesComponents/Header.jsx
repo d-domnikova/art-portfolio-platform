@@ -1,10 +1,15 @@
 import { Popover, PopoverButton, PopoverPanel} from '@headlessui/react';
+import { useLocation } from "react-router";
 import SearchBar from "./SearchBar";
 
 export default function Header({isLoggedIn}){
+    const location = useLocation();
+    const user = localStorage.getItem("username");
+
     return(
         <>
-        <nav className="bg-smoky fixed w-full z-50 top-0 start-0 border-b border-bone font-medium">
+        <nav className={location.pathname == "/sign-up" || location.pathname == "/login"? 
+                        "hidden" : "bg-smoky fixed w-full z-50 top-0 start-0 border-b border-bone font-medium"}>
             <div className="max-w-screen-2xl flex items-center justify-between mx-auto md:max-lg:px-2 px-4 py-3 text-white">
                 <div className="flex items-center justify-start">
                 <div className="flex space-x-4">
@@ -25,7 +30,7 @@ export default function Header({isLoggedIn}){
                         <HeaderButtons text="Explore" url="/explore"/>
                     </li>
                     <li className="text-center pt-2">
-                        <HeaderButtons text="Commissions" url="/commission"/>
+                        <HeaderButtons text="Commissions" url="/commissions"/>
                     </li>
                     <li className="text-center pt-2">
                         <HeaderButtons text="Shop" url="/shop"/>
@@ -35,8 +40,8 @@ export default function Header({isLoggedIn}){
                     </li>
                     { isLoggedIn && (
                         <>
-                            <li className="text-center">
-                                <HeaderButtons text="Add post" url="/post/create"/>
+                            <li className="text-center pt-2">
+                                <a href='/post/create' className="mt-2 text-white bg-cardinal/40 hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">Add post </a>
                             </li>
                             <li className="text-center">
                                 <HeaderButtons text="Notifications" url="/notifications"/>
@@ -51,10 +56,10 @@ export default function Header({isLoggedIn}){
                             <Popover className="relative">
                                 <PopoverButton className="mr-8 size-10 bg-red-200/20 rounded-full hover:ring"></PopoverButton>
                                 <PopoverPanel anchor="bottom" className="flex flex-col z-30 bg-smoky text-bone text-left p-3 rounded-lg border border-bone space-y-4">
-                                    <a href="/user" className="pt-4 block md:hover:text-white">Your profile</a>
-                                    <a href="/commissions/user" className="block md:hover:text-white">Your commissions</a>
-                                    <a href="/shop/user" className="block md:hover:text-white">Your shop</a>
-                                    <a href="/user/personal-info" className="pb-3 block md:hover:text-white border-b border-bone/75">Settings</a>
+                                    <a href={"/user/" + user} className="pt-4 block md:hover:text-white">Your profile</a>
+                                    <a href={"/commissions/" + user} className="block md:hover:text-white">Your commissions</a>
+                                    <a href={"/shop/" + user} className="block md:hover:text-white">Your shop</a>
+                                    <a href="/settings" className="pb-3 block md:hover:text-white border-b border-bone/75">Settings</a>
                                     <a href="/" onClick={logout} className="block md:hover:text-white">Log out</a>
                                 </PopoverPanel>
                                 </Popover>
