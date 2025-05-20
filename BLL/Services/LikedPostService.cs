@@ -26,6 +26,12 @@ namespace BLL.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<LikedPostResponse> GetByUserAndByPost(Guid userId, Guid postId)
+        {
+            var likedPost = await _unitOfWork.LikedPostRepository.GetByUserIdAndPostIdAsync(userId, postId);
+            return _mapper.Map<LikedPostResponse>(likedPost);
+        }
+
         public async Task DeleteAsync(Guid userId, Guid postId)
         {
             var likedPost = await _unitOfWork.LikedPostRepository.GetByUserIdAndPostIdAsync(userId, postId);

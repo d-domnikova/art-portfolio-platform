@@ -25,6 +25,14 @@ namespace art_portfolio_webAPI.Controllers
             return Ok(likedPosts);
         }
 
+        [HttpGet("{postId}/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByUserAndByPost(Guid userId, Guid postId)
+        {
+            var likedPost = await _likedPostService.GetByUserAndByPost(userId, postId);
+            return Ok(likedPost);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddLikedPost([FromBody] CreateLikedPost createLikedPost)
         {
@@ -32,7 +40,7 @@ namespace art_portfolio_webAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{postId}/{userId}")]
         public async Task<IActionResult> DeleteLikedPost(Guid userId, Guid postId)
         {
             await _likedPostService.DeleteAsync(userId, postId);

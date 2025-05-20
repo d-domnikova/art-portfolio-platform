@@ -8,12 +8,15 @@ import UserCardMobile from "../pagesComponents/UserCardMobile";
 import DeleteModal from "../modals/DeleteModal";
 import { useParams, useNavigate } from "react-router";
 import ThreeDots from "../icons/ThreeDots";
+import HeartFill from "../icons/HeartFill";
 
 export default function PostPage(){
     const { id } = useParams()
     const navigate = useNavigate();
-    const [post, setPost] = useState([]);
-    const [user, setUser] = useState([])
+    const [post, setPost] = useState({});
+    const [user, setUser] = useState([]);
+    const [likes, setLikes] = useState([]);
+    const [temp, setTemp] = useState({});
     const [comments, setComments] = useState([]);
 
     const [newComment, setNewComment] = useState({
@@ -34,13 +37,24 @@ export default function PostPage(){
              if (error.status === 400) {navigate("*")}
          });
 
-        axios.get('https://localhost:7029/api/comment')
+        axios.get(`https://localhost:7029/api/post/${id}/comments`)
        .then(response => {
             setComments(response.data);
         })
         .catch(error => {
             console.error(error);
         });
+
+        axios.get(`https://localhost:7029/api/post/${id}/likedPosts`)
+       .then(response => {
+            setLikes(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+        axios.get(`https://localhost:7029/api/likedPost/${id}/${localStorage.getItem("userId")}`)
+        .then(response => { setTemp(response.data); })
     }, []);
 
           const handleChange = (e) => {
@@ -61,6 +75,20 @@ export default function PostPage(){
             axios.post("https://localhost:7029/api/comment", userData, 
                 { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}}.then(window.location.reload(false)),
               );  
+            }
+
+            const addLike = () => {
+                const userData ={
+                    userId: localStorage.getItem("userId"),
+                    postId: id
+                }
+                axios.post("https://localhost:7029/api/likedPost", userData, 
+                { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}})
+            }
+
+            const deleteLike = () => {
+                axios.delete(`https://localhost:7029/api/likedPost/${id}/${localStorage.getItem("userId")}`, 
+                { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}})
             }
 
     return(
@@ -84,6 +112,12 @@ export default function PostPage(){
                         </Popover>}
                 </div>
                 <div>{post.description}</div>
+                <div className="space-x-2">
+                    <button className="cursor-pointer" onClick={temp.length !=0 ? (deleteLike) : (addLike)}>
+                        {temp.length !=0 ? 
+                    <HeartFill /> : <Heart /> }
+                    </button>
+                <span className="mt-1">{likes.length}</span></div>
                 <p className="text-xl text-white font-bold">Comments</p>
                 
                 <form className="relative w-full min-h-20 flex justify-between space-x-2" onSubmit={handleSubmit}>
