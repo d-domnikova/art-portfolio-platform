@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router';
 import axios from 'axios';
 import PostPreview from '../pagesComponents/PostPreview'
 
 export default function ExplorePage() {
     const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const keyword = useParams();
+    const location = useLocation();
+    console.log(keyword)
 
     useEffect(() => {
        axios.get('https://localhost:7029/api/category')
@@ -14,15 +18,24 @@ export default function ExplorePage() {
         .catch(error => {
             console.error(error);
         });
-
-        axios.get('https://localhost:7029/api/post')
-        .then(response => {
-             setPosts(response.data);
-         })
-         .catch(error => {
-             console.error(error);
-         });
-    }, []);
+        if (location.pathname == "/"){
+            axios.get('https://localhost:7029/api/post')
+            .then(response => {
+                setPosts(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        } else {
+            axios.get(`https://localhost:7029/api/post/search/${keyword.value}`)
+            .then(response => {
+                setPosts(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+}, []);
 
     return(
         <div>
@@ -35,7 +48,6 @@ export default function ExplorePage() {
             </div>
             </div>
             <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 pt-32">
-                <PostPreview/>
             {posts.map((post) => (<PostPreview key={post.id} 
                                         id={post.id} title={post.title} postImage={post.postImage} user={post.userId}/>
             ))}
@@ -46,6 +58,6 @@ export default function ExplorePage() {
 
 function Category(props){
     return(
-        <a href={"/"+ props.title} className='inline-block px-3 py-2 border border-bone rounded-sm hover:bg-bone/20'>{props.title}</a>
+        <a href={"/search="+ props.title} className='inline-block px-3 py-2 border border-bone rounded-sm hover:bg-bone/20'>{props.title}</a>
     )
 }

@@ -68,7 +68,7 @@ export default function SignUpForm(){
       axios.post("https://localhost:7029/api/Auth/register", userData).then((response) => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("username", response.data.user.username);
-            localStorage.setItem("userId", response.data.user.userId);
+            localStorage.setItem("userId", response.data.user.id);
             localStorage.setItem("isLoggedIn", true);
             axios.get({headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}});
             navigate(`/user/${localStorage.getItem("username")}`);

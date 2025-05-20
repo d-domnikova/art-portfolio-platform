@@ -20,7 +20,7 @@ export default function Header({isLoggedIn}){
                         </svg>
                     </button>
                     <a href="/" className="flex items-center space-x-3">
-                        <img src="/" className="md:h-10 h-12" alt="Logo"/>
+                        <img src="" className="md:h-10 h-12"/>
                         <span className="self-center text-xl font-semibold whitespace-nowrap max-md:text-xl xl:text-2xl">ArtFocus</span>
                     </a>
                 </div>
@@ -41,10 +41,7 @@ export default function Header({isLoggedIn}){
                     { isLoggedIn && (
                         <>
                             <li className="text-center pt-2">
-                                <a href='/post/create' className="mt-2 text-white bg-cardinal/40 hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">Add post </a>
-                            </li>
-                            <li className="text-center">
-                                <HeaderButtons text="Notifications" url="/notifications"/>
+                                <a href='/post/create' className="mt-2 text-white bg-cardinal/40 hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">Add post</a>
                             </li>
                         </>
                     )}

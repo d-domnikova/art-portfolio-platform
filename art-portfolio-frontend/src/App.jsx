@@ -12,14 +12,14 @@ export default function App() {
   return (
     <>
     <Routes>
-      <Route index element={<ExplorePage />} />
       <Route path="/" element={<ExplorePage />} />
+      <Route path="/?search=:keyword?" element={<ExplorePage />} />
       <Route path="/explore" element={<Navigate to="/" />} />
 
       <Route path="/login" element={<LoginForm />} />
       <Route path="/sign-up" element={<SignUpForm />} />
 
-      <Route path="/user/:username" element={<UserProfile />} />
+      <Route path="/user/:params" element={<UserProfile />} />
       <Route path="/post/:id" element={<PostPage />} />
 
       <Route element={<ProtectedRoute />}>

@@ -21,7 +21,7 @@ export default function PostPreview(props){
                         md:hover:bg-linear-to-b/longer from-transperent to-black/30 transition-all duration-300 ease-in-out">
             <img src="https://placehold.co/320x320" className="object-center object-cover"/>
             <div className="hidden md:group-hover:block absolute bottom-0 inset-x-0 text-white">
-                <p className="px-8 pt-2 flex flex-wrap font-bold text-xl">{props.title != undefined && props.title}</p>
+                <p className="px-8 pt-2 flex flex-wrap font-bold text-lg">{props.title != undefined && `${props.title.slice(0, 20)}...`}</p>
                 <p className="px-8 pb-2 font-semibold">{user.username}</p>
             </div>
         </a>
