@@ -72,6 +72,7 @@ export default function SignUpForm(){
             localStorage.setItem("isLoggedIn", true);
             axios.get({headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}});
             navigate(`/user/${localStorage.getItem("username")}`);
+            window.location.reload(false)
           });
       return;
     }

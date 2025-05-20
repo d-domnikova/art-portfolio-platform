@@ -67,6 +67,7 @@ export default function AuthForm(){
             localStorage.setItem("isLoggedIn", true);
             axios.get({headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}});
             navigate("/explore");
+            window.location.reload(false)
           });
         }
     }

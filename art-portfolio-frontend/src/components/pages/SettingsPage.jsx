@@ -1,8 +1,10 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
-import UserForm from "./UserForm";
+import AccountSettings from './settings/AccountSetting';
+import ProfileSettings from './settings/ProfileSettings';
 
 export default function SettingsPage(){
+    const id = localStorage.getItem("userId")
+
     return(
         <TabGroup vertical className="md:grid md:grid-cols-5">
             <div className="ml-10 lg:ml-30 -mt-4 col-span-2 md:block md:fixed h-full p-4 text-bone xl:w-78 min-w-24 max-w-78 space-y-2 border-r-4 border-double border-bone">
@@ -15,43 +17,15 @@ export default function SettingsPage(){
                                         hover:text-white hover:underline focus:not-data-focus:outline-none text-right border-b">Delete account </Tab>
                 </TabList>
             </div>
-            <div className="col-span-3 fixed overflow-y-auto overscrol-y-contain md:left-[30%] left-[40%] right-4">
+            <div className="col-span-3 fixed h-[85%] overflow-y-auto overscrol-y-contain md:left-[30%] left-[40%] right-4">
                 <TabPanels>
                     <TabPanel>
                         <h1 className="text-white font-bold text-2xl ml-20 mt-4">Change profile settings</h1>
-                        <UserForm />
+                        <ProfileSettings />
                     </TabPanel>
                     <TabPanel className="w-[80%] md:w-[60%] md:ml-20 space-y-6 mt-4">
                         <h1 className="text-white font-bold text-2xl mt-4">Change account settings</h1>
-                        <Disclosure as="div">
-                            <DisclosureButton className="font-bold text-xl hover:text-white hover:underline pl-4">Change username</DisclosureButton>
-                            <DisclosurePanel className="space-y-4 pt-4 pl-8">
-                            <input type="text" className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Username" required/> 
-                            </DisclosurePanel>
-                        </Disclosure>
-                        <Disclosure as="div"> 
-                            <DisclosureButton className="font-bold text-xl hover:text-white hover:underline pl-4">Change birth date</DisclosureButton>
-                            <DisclosurePanel className="space-y-4 pt-4 pl-8">
-                            <input type="date" className='block py-2 px-4 border border-bone rounded-lg focus:ring' required/>  
-                            </DisclosurePanel>
-                        </Disclosure>
-                        <Disclosure as="div">
-                            <DisclosureButton className="font-bold text-xl hover:text-white hover:underline pl-4">Change email</DisclosureButton>
-                            <DisclosurePanel className="space-y-4 pt-4 pl-8">
-                            <input type="text" className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Email" required/>
-                            </DisclosurePanel>
-                        </Disclosure>
-                        <Disclosure as="div"> 
-                            <DisclosureButton className="font-bold text-xl hover:text-white hover:underline pl-4">Change password</DisclosureButton>
-                            <DisclosurePanel className="space-y-4 pt-4 pl-8">
-                                <input type="password" name='currentPassword'
-                                className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Current password" required/>
-                                <input type="password" name='newPassword'
-                                className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="New password" required/>
-                                <input type="password" name='newPasswordRepeat'
-                                className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Confirm new password" required/>
-                            </DisclosurePanel>
-                        </Disclosure>
+                        <AccountSettings />
                     </TabPanel>
                     <TabPanel className="w-[80%] md:w-[60%] md:ml-20 mt-4 space-y-3">
                         <h1 className="text-white font-bold text-2xl">Delete account</h1>

@@ -1,0 +1,9 @@
+export default function ThreeDots(){
+    return(
+        <>
+        <svg className="size-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+        </svg>
+        </>
+    )
+}

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function DeleteModal(props) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const type = props.obj;
+  const type = props.type;
 
   const handleClick = (id) => {
       axios.delete(`https://localhost:7029/api/${type}/${id}`, 
@@ -20,14 +20,17 @@ export default function DeleteModal(props) {
       setOpen(false);
       switch(type) {
         case "post":
-          navigate(`/user/${props.userId}`);
+          navigate(`/user/${localStorage.getItem("username")}`);
+          break;
+        default:
+          window.location.reload(false);
           break;
       }
   }
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className="inline absolute -top-3 -right-4 hover:bg-red-300 rounded-full p-3">  </button>
+      <button onClick={() => setOpen(true)} className="block text-red-500 md:hover:text-white rounded-full p-2">Delete</button>
 
       <Dialog open={open} onClose={setOpen} className="relative z-30">
         <DialogBackdrop transition

@@ -1,6 +1,7 @@
 import { Popover, PopoverButton, PopoverPanel} from '@headlessui/react';
 import { useLocation } from "react-router";
 import SearchBar from "./SearchBar";
+import Add from '../icons/Add';
 
 export default function Header({isLoggedIn}){
     const location = useLocation();
@@ -20,7 +21,7 @@ export default function Header({isLoggedIn}){
                         </svg>
                     </button>
                     <a href="/" className="flex items-center space-x-3">
-                        <img src="" className="md:h-10 h-12"/>
+                        <img className="md:h-10 h-12"/>
                         <span className="self-center text-xl font-semibold whitespace-nowrap max-md:text-xl xl:text-2xl">ArtFocus</span>
                     </a>
                 </div>
@@ -41,7 +42,8 @@ export default function Header({isLoggedIn}){
                     { isLoggedIn && (
                         <>
                             <li className="text-center pt-2">
-                                <a href='/post/create' className="mt-2 text-white bg-cardinal/40 hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">Add post</a>
+                                <a href='/post/create' className="mt-2 text-white bg-cardinal/40 hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">
+                               <Add /> Add post </a>
                             </li>
                         </>
                     )}
@@ -64,9 +66,9 @@ export default function Header({isLoggedIn}){
             ) : (
                         <div className="flex md:order-2 space-x-2">
                             <a href="/sign-up" 
-                                className="text-white hover:underline px-5 py-2 text-center hidden sm:inline">Зареєструватися</a>
+                                className="text-white hover:underline px-5 py-2 text-center hidden sm:inline">Sigh Up</a>
                             <a href="/login" 
-                                className="text-white bg-cardinal hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">Увійти</a>
+                                className="text-white bg-cardinal hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">Log In</a>
                         </div>
                     )}
             </div>
