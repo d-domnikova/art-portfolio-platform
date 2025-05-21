@@ -81,7 +81,7 @@ export default function AuthForm(){
             <img src="/"/>
         </div>
         <div className="col-span-4 h-full flex flex-col items-start">
-            <form className="m-auto w-[80%] md:w-[50%] flex flex-col justify-start space-y-5 pt-8 pb-6" onSubmit={handleSubmit}> 
+            <form className="m-auto w-[80%] md:w-[50%] flex flex-col justify-start space-y-5 pt-8 pb-6" autocomplete="off" onSubmit={handleSubmit}> 
                 <h1 className="text-bone font-bold text-3xl">Log In</h1>
                 <p className="-mt-1">Please log in to continue</p>
                 <input type="text" name='credential' value={login.credential} onChange={handleChange} 

@@ -1,4 +1,7 @@
-﻿namespace DAL.Models
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DAL.Models
 {
     public class Post
     {
@@ -16,5 +19,8 @@
         public ICollection<Category> Categories { get; set; } = new List<Category>();
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<LikedPost> Likes { get; set; } = new List<LikedPost>();
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }

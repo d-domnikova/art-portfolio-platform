@@ -2,8 +2,8 @@ export default function UserCardMobile(props){
     return(
         <a href={"/user/" + props.username} className="md:hidden text-bone relative mt-4 block px-6 py-4 bg-cardinal/25 rounded-xl">
             <div className="flex justify-start">
-                <div className="mt-2 size-16 bg-red-200/40 rounded-full">
-                    <img/>
+                <div className="mt-2 size-16 bg-red-200/40 rounded-full overflow-hidden">
+                    <img src={props.profileImageSrc} className="object-cover object-center"/>
                 </div>
                 <div className="mb-4 ml-8">
                     <h1 className="text-white font-bold text-lg">{props.nickname != undefined && props.nickname}</h1>

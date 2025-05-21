@@ -5,7 +5,7 @@ import PostPage from './components/pages/PostPage';
 import PostForm from './components/pages/PostForm';
 import NoPage from './components/pages/NoPage';
 import LoginForm from './components/pages/authorization/LoginForm';
-import SettingsPage from './components/pages/SettingsPage';
+import SettingsPage from './components/pages/settings/SettingsPage';
 import SignUpForm from './components/pages/authorization/SignUpForm';
 
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
     <>
     <Routes>
       <Route path="/" element={<ExplorePage />} />
-      <Route path="/?search=:keyword?" element={<ExplorePage />} />
+      <Route path="/search=:keyword" element={<ExplorePage />} />
       <Route path="/explore" element={<Navigate to="/" />} />
 
       <Route path="/login" element={<LoginForm />} />

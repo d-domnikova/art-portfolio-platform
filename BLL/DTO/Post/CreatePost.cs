@@ -1,4 +1,7 @@
-﻿namespace BLL.DTO.Post
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BLL.DTO.Post
 {
     public class CreatePost
     {
@@ -8,5 +11,8 @@
         public string PostImage { get; set; }
         public string? AlterText { get; set; }
         public bool IsVisibleInPortfolio { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }

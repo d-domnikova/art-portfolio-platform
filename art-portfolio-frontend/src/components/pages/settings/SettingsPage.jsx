@@ -1,6 +1,6 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import AccountSettings from './settings/AccountSetting';
-import ProfileSettings from './settings/ProfileSettings';
+import AccountSettings from './AccountSetting';
+import ProfileSettings from './ProfileSettings';
 
 export default function SettingsPage(){
     const id = localStorage.getItem("userId")

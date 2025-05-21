@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.User
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BLL.DTO.User
 {
     public class UserResponse
     {
@@ -15,6 +17,11 @@
         public string? BannerImage { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        [NotMapped]
+        public string? ProfileImageSrc { get; set; }
+        [NotMapped]
+        public string? BannerImageSrc { get; set; }
 
     }
 }

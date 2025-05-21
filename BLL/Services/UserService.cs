@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using BLL.DTO.User;
 using BLL.Services.Interfaces;
-using DAL.Context;
 using DAL.Models;
 using DAL.Repositories.Interfaces;
+using Isopoh.Cryptography.Argon2;
 using System.Linq.Expressions;
 
 namespace BLL.Services
@@ -12,13 +12,11 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly PlatformContext _platformContext;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, PlatformContext platformContext)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _platformContext = platformContext;
         }
 
         public async Task CreateAsync(CreateUser createUser)
@@ -35,6 +33,10 @@ namespace BLL.Services
         {
             var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
             if (user == null) return;
+            if (!Argon2.Verify(user.PasswordHash, updateUser.Password))
+            {
+                user.PasswordHash = Argon2.Hash(updateUser.Password);
+            }
 
             _mapper.Map(updateUser, user);
             user.UpdatedAt = DateTime.UtcNow;

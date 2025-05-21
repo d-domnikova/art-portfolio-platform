@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Post
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BLL.DTO.Post
 {
     public class PostResponse
     {
@@ -11,6 +13,9 @@
         public bool IsVisibleInPortfolio { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        [NotMapped]
+        public string ImageSrc { get; set; }
 
     }
 }

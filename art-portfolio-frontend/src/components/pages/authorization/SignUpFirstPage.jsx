@@ -67,11 +67,11 @@ export default function SignUpFirstPage(){
             <div className="m-auto w-[80%] md:w-[50%] flex flex-col justify-start space-y-5 pt-8 pb-6"> 
                 <h1 className="text-bone font-bold text-3xl">Sign Up</h1>
                 <p className="-mt-1">Create an account to get started</p>
-                <input type="text" name={"username"} value={credentials.username} onChange={handleChange}
+                <input type="text" name={"username"} value={credentials.username} autocomplete="off" onChange={handleChange}
                         className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Username" required/> 
                         {errors.username && ( <span className="error-message -mt-3 text-sm text-red-500"> {errors.username}</span>)}
 
-                <input type="text" name={"email"} value={credentials.email} onChange={handleChange}
+                <input type="text" name={"email"} value={credentials.email} autocomplete="off" onChange={handleChange}
                         className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Email" required/>
                         {errors.email && ( <span className="error-message -mt-3 text-sm text-red-500"> {errors.email}</span>)}
 

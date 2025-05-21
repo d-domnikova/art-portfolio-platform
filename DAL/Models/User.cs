@@ -1,4 +1,7 @@
-﻿namespace DAL.Models
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DAL.Models
 {
     public class User
     {
@@ -24,6 +27,11 @@
 
         public ICollection<User> Followings { get; set; } = new List<User>();
         public ICollection<User> Followers { get; set; } = new List<User>();
+
+        [NotMapped]
+        public IFormFile? ProfileImageFile { get; set; }
+        [NotMapped]
+        public IFormFile? BannerImageFile { get; set; }
 
     }
 }

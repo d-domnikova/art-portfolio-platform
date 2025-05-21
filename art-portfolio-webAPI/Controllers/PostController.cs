@@ -1,8 +1,8 @@
-﻿using BLL.DTO.Comment;
+﻿using art_portfolio_webAPI.Controllers.ImagesProcessing;
+using BLL.DTO.Comment;
 using BLL.DTO.LikedPost;
 using BLL.DTO.Post;
 using BLL.DTO.User;
-using BLL.Services;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +17,17 @@ namespace art_portfolio_webAPI.Controllers
         private readonly IPostService _postService;
         private readonly ILikedPostService _likedPostService;
         private readonly ICommentService _commentService;
+        private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IProcessingImages _processingImages;
 
-        public PostController(IPostService postService, ILikedPostService likedPostService, ICommentService commentService)
+        public PostController(IPostService postService, ILikedPostService likedPostService, ICommentService commentService, 
+                                IWebHostEnvironment hostEnvironment, IProcessingImages processingImages)
         {
             _postService = postService;
             _likedPostService = likedPostService;
             _commentService = commentService;
+            _hostEnvironment = hostEnvironment;
+            _processingImages = processingImages;
         }
 
         [HttpGet]
@@ -30,6 +35,9 @@ namespace art_portfolio_webAPI.Controllers
         public async Task<ActionResult<IEnumerable<PostResponse>>> GetAllPosts()
         {
             var post = await _postService.GetAsync();
+            foreach (var postResponse in post) {
+                postResponse.ImageSrc = String.Format("{0}://{1}{2}/images/{3}", Request.Scheme, Request.Host, Request.PathBase, postResponse.PostImage);
+            }
             return Ok(post);
         }
 
@@ -38,21 +46,26 @@ namespace art_portfolio_webAPI.Controllers
         public async Task<ActionResult<PostResponse>> GetPostById(Guid id)
         {
             var post = await _postService.GetByIdAsync(id);
+
             if (post == null)
-                return NotFound();
+            { return NotFound(); } else
+            {
+                post.ImageSrc = String.Format("{0}://{1}{2}/images/{3}", Request.Scheme, Request.Host, Request.PathBase, post.PostImage);
+            }
 
             return Ok(post);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPost([FromBody] CreatePost createPost)
+        public async Task<IActionResult> AddPost([FromForm] CreatePost createPost)
         {
+            createPost.PostImage = await _processingImages.UploadImage(createPost.ImageFile, _hostEnvironment);
             await _postService.CreateAsync(createPost);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePost(Guid id, [FromBody] UpdatePost updatePost)
+        public async Task<IActionResult> UpdatePost(Guid id, [FromForm] UpdatePost updatePost)
         {
             await _postService.UpdateAsync(id, updatePost);
             return NoContent();
@@ -61,6 +74,10 @@ namespace art_portfolio_webAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(Guid id)
         {
+            var post = await _postService.GetByIdAsync(id);
+            if (post != null)
+                _processingImages.DeleteImage(post.PostImage, _hostEnvironment);
+
             await _postService.DeleteAsync(id);
             return NoContent();
         }
@@ -93,7 +110,13 @@ namespace art_portfolio_webAPI.Controllers
         {
             var posts = await _postService.FindByKeywordAsync(value);
             if (posts == null)
-                return NotFound();
+            { return NotFound(); } else
+            {
+                foreach (var postResponse in posts)
+                {
+                    postResponse.ImageSrc = String.Format("{0}://{1}{2}/images/{3}", Request.Scheme, Request.Host, Request.PathBase, postResponse.PostImage);
+                }
+            }
 
             return Ok(posts);
         }

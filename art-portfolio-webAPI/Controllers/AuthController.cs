@@ -1,6 +1,7 @@
 ﻿using BLL.Services.Interfaces;
 using BLL.DTO.Auth;
 using Microsoft.AspNetCore.Mvc;
+using art_portfolio_webAPI.Controllers.ImagesProcessing;
 
 namespace ProjectJobNet.Controllers
 {
@@ -29,7 +30,7 @@ namespace ProjectJobNet.Controllers
             }
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromForm] RegisterRequest request)
         {
             try
             {

@@ -14,7 +14,7 @@ export default function PostPage(){
     const { id } = useParams()
     const navigate = useNavigate();
     const [post, setPost] = useState({});
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState({});
     const [likes, setLikes] = useState([]);
     const [temp, setTemp] = useState({});
     const [comments, setComments] = useState([]);
@@ -66,6 +66,7 @@ export default function PostPage(){
           };    
         
         const handleSubmit = (e) => {
+            if(!localStorage.getItem("isLoggedIn")) navigate("/login");
             e.preventDefault();
             const userData = {
                 commentBody: newComment.commentBody,
@@ -73,11 +74,12 @@ export default function PostPage(){
                 userId: localStorage.getItem("userId"),
               };
             axios.post("https://localhost:7029/api/comment", userData, 
-                { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}}.then(window.location.reload(false)),
-              );  
+                { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}},
+              ).then(window.location.reload(false));  
             }
 
             const addLike = () => {
+                if(!localStorage.getItem("isLoggedIn")) navigate("/login");
                 const userData ={
                     userId: localStorage.getItem("userId"),
                     postId: id
@@ -91,14 +93,16 @@ export default function PostPage(){
                 { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}})
             }
 
+            const fullMode =(e)=>{}
+
     return(
         <>
         <UserCardMobile id={user.id} username={user.username} nickname={user.nickname} 
-                        location={user.location} website={user.website} bio={user.biography}/>
+                        location={user.location} website={user.website} biography={user.biography}/>
         <div className="md:grid md:grid-cols-4 my-4">
             <div className="col-span-3 space-y-4">
-                <div className="bg-cardinal w-full h-120 rounded-xl">
-                    <img/>
+                <div className="w-full min-h-70 max-h-150 rounded-xl flex justify-center">
+                    <img src={post.imageSrc} className="min-h-70 max-h-150 cursor-pointer" onClick={fullMode}/>
                 </div>
                 <div className="relative">
                 <h1 className="font-bold text-2xl">{post.title}</h1>
@@ -114,7 +118,7 @@ export default function PostPage(){
                 <div>{post.description}</div>
                 <div className="space-x-2">
                     <button className="cursor-pointer" onClick={temp.length !=0 ? (deleteLike) : (addLike)}>
-                        {temp.length !=0 ? 
+                        {localStorage.getItem("isLoggedIn") && temp.length !=0 ? 
                     <HeartFill /> : <Heart /> }
                     </button>
                 <span className="mt-1">{likes.length}</span></div>
@@ -135,7 +139,7 @@ export default function PostPage(){
                 ))}
             </div>
             <UserCard id={user.id} username={user.username} nickname={user.nickname} 
-                        location={user.location} website={user.website} bio={user.biography}/>
+                        location={user.location} website={user.website} biography={user.biography}/>
         </div>
     </>
     )

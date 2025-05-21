@@ -1,4 +1,7 @@
-﻿namespace BLL.DTO.User
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BLL.DTO.User
 {
     public class CreateUser
     {
@@ -12,6 +15,11 @@
         public string? Location { get; set; }
         public string? ProfileImage { get; set; }
         public string? BannerImage { get; set; }
+
+        [NotMapped]
+        public IFormFile? ProfileImageFile { get; set; }
+        [NotMapped]
+        public IFormFile? BannerImageFile { get; set; }
 
     }
 }

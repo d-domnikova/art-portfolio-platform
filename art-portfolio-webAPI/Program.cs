@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
+using art_portfolio_webAPI.Controllers.ImagesProcessing;
 
 namespace art_portfolio_webAPI
 {
@@ -48,6 +50,8 @@ namespace art_portfolio_webAPI
             builder.Services.AddScoped<ILikedPostService, LikedPostService>();
             builder.Services.AddScoped<IShopItemService, ShopItemService>();
             builder.Services.AddScoped<IShopTypeService, ShopTypeService>();
+
+            builder.Services.AddScoped<IProcessingImages, ProcessingImages>();
 
             builder.Services.AddControllers();
 
@@ -114,6 +118,12 @@ namespace art_portfolio_webAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "images")),
+                RequestPath = "/images"
+            });
 
             app.UseCors(MyAllowSpecificOrigins);
 

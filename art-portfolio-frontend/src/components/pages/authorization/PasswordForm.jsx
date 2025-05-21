@@ -17,7 +17,8 @@ export default function PasswordForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setPassword(password);
-
+        
+        const newErrors = validateForm(password);
         if (Object.keys(newErrors).length === 0) {
            next();
         }
