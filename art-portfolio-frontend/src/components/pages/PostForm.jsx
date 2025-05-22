@@ -1,100 +1,110 @@
 import { useState, useRef, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import ImagePicker from "../icons/ImagePicker";
 
-export default function PostForm(){
-    const [imageURL, setImageURL] = useState();
-    const fileUploadRef = useRef(null);  
-    const [categories, setCategories] = useState([]);
-    useEffect(() => {
-       axios.get('https://localhost:7029/api/category')
-       .then(response => {
-            setCategories(response.data);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    }, []);
-    
+export default function PostForm(){ 
+    const location = useLocation();
+    const { id } = useParams();
+    const navigate = useNavigate(); 
     const [post, setPost] = useState({
         title: "",
         description: "",
         postImage: "",
         alterText: "",
         isVisibleInPortfolio: false,
-        categories: []
+        imageSrc: null,
+        imageFile: null
       });
+
+      const [isVisibleInPortfolio, setIsVisibleInPortfolio] = useState(false);
 
       const handleChange = (e) => {
         const value = e.target.value;
         setPost({
           ...post,
-          [e.target.name]: value
+          [e.target.name]: value,
         });
       };    
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        const userData = {
-            title: post.title,
-            description: post.description,
-            postImage: imageURL,
-            alterText: post.alterText,
-            categories: post.categories,
-            userId: localStorage.getItem("userId")
-          };
-        axios.post("https://localhost:7029/api/post", userData, 
+        const formData = new FormData();
+        formData.append('title', post.title);
+        formData.append('description', post.description);
+        formData.append('alterText', post.alterText);
+        formData.append('isVisibleInPortfolio', isVisibleInPortfolio),
+        formData.append('postImage', post.imageSrc);
+        formData.append('imageFile', post.imageFile);
+        formData.append('userId', localStorage.getItem('userId'))
+
+        axios.post("https://localhost:7029/api/post", formData, 
             { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}}).then(
-                navigate("/user/" + localStorage.getItem("userId"))
+                navigate("/user/" + localStorage.getItem("username"))
           );  
         }
 
-        /*if(action === "edit") {
+        if(location.pathname != "/post/create") {
             useEffect(() => {
-                axios.get(`https://localhost:7029/api/posts/${id}`)
+                axios.get(`https://localhost:7029/api/post/${id}`)
                 .then(response => {
                      setPost(response.data);
+                     setIsVisibleInPortfolio(response.data.isVisibleInPortfolio)
                  })
                  .catch(error => {
                      console.error(error);
                  });
              }, []);
-        }*/
+        }
 
         const handleUpdateSubmit = (e) => {
             e.preventDefault();
-            const userData = {
-                title: post.title,
-                description: post.description,
-                alterText: post.alterText,
-                categories: post.categories
-              };
-            axios.put(`https://localhost:7029/api/post/${id}`, userData, 
+           const formData = new FormData();
+                formData.append('title', post.title);
+                formData.append('description', post.description);
+                formData.append('alterText', post.alterText);
+                formData.append('isVisibleInPortfolio', isVisibleInPortfolio),
+
+            axios.put(`https://localhost:7029/api/post/${id}`, formData, 
                 { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}}).then(
-                    navigate(`/posts/${id}`)
+                    navigate(`/post/${id}`)
               );  
         }
 
-      const uploadImageDisplay = async () => {
-        const uploadedFile = fileUploadRef.current.files[0];
-        const cachedURL = URL.createObjectURL(uploadedFile);
-        setImageURL(cachedURL);
+        const checkOnChange = () => {
+            setIsVisibleInPortfolio(!isVisibleInPortfolio);
+        }
+
+      const uploadImageDisplay = (e) => {
+        const uploadedFile = e.target.files[0];
+        console.log(e.target.files)
+        const reader = new FileReader(); 
+        reader.onload = x => {
+            setPost({  
+                ...post,
+                imageFile: uploadedFile,
+                imageSrc: x.target.result
+            })
+        }
+        reader.readAsDataURL(uploadedFile);
     }
 
+    console.log(post)
     return(
-        <form className="m-auto w-[80%] md:w-[60%] flex flex-col justify-start space-y-3" onSubmit={handleSubmit}>
+        <form className="m-auto w-[80%] md:w-[60%] flex flex-col justify-start space-y-3" autocomplete="off" 
+                                                onSubmit={location.pathname == "/post/create"? handleSubmit : handleUpdateSubmit}>
             <div className="flex items-center justify-center w-full">
-                <label for="image-file" className="flex items-center justify-center w-full h-80 bg-cardinal/20 rounded-lg border border-dashed border-bone/80 cursor-pointer hover:bg-cardinal/40">
-                    <img className="object-scale-down rounded-lg" src={imageURL} />
+                <label for="imageFile" className="flex items-center justify-center w-full h-80 bg-cardinal/20 rounded-lg border border-dashed border-bone/80 
+                            cursor-pointer hover:bg-cardinal/40">
+                    <img className="object-scale-down rounded-lg h-80" src={post.imageSrc} />
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        {imageURL == null && 
+                        {post.imageSrc == null && 
                         <>
                             <ImagePicker />
-                            <p className="mb-2 text-sm"><span className="font-semibold">Click to upload image</span> or drag and drop</p>
+                            <p className="mb-2 text-sm font-semibold">Click to upload image</p>
                         </>}
                     </div>
-                    <input id="image-file" type="file" className="hidden" accept="image/*" ref={fileUploadRef} onChange={uploadImageDisplay}/>
+                    <input id="imageFile" name="imageFile" type="file" className="hidden" accept="image/*" onChange={uploadImageDisplay} disabled={location.pathname != "/post/create" && true}/>
                 </label>
             </div> 
             <input type="text" name="title" value={post.title} onChange={handleChange} 
@@ -106,7 +116,7 @@ export default function PostForm(){
                     className="py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Alter text"/>
             <div className="flex">
                 <div className="flex items-center h-5">
-                    <input id="is-visible-in-portfolio" type="checkbox" value={post.isVisibleInPortfolio} onChange={handleChange}  
+                    <input name="isVisibleInPortfolio" type="checkbox" value={isVisibleInPortfolio} onChange={checkOnChange} checked={isVisibleInPortfolio ? 'checked' : ''}  
                         className="size-4 mt-2 accent-cardinal rounded-sm hover:ring-2 hover:ring-cardinal/70"/>
                 </div>
                 <div className="ms-2">
