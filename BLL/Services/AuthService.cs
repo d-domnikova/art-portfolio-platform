@@ -85,6 +85,7 @@ namespace BLL.Services
 
             newUser.Id = Guid.NewGuid();
             newUser.PasswordHash = Argon2.Hash(request.Password);
+            newUser.RoleId = _unitOfWork.RoleRepository.GetRoleByName("User").Result.Id;
             newUser.CreatedAt = DateTime.Now;
             newUser.UpdatedAt = DateTime.Now;
 

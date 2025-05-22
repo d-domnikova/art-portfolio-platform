@@ -35,7 +35,7 @@ namespace BLL.Services
             _mapper.Map(updatePost, post);
             post.UpdatedAt = DateTime.UtcNow;
 
-            _unitOfWork.PostRepository.Remove(post);
+            _unitOfWork.PostRepository.Update(post);
             await _unitOfWork.SaveChangesAsync();
         }
 

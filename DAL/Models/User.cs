@@ -12,6 +12,8 @@ namespace DAL.Models
         public string? Biography { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public Guid RoleId {  get; set; }
+        public Role Role { get; set; }
         public string? Website { get; set; }
         public string? Location { get; set; }
         public string? ProfileImage { get; set; }
@@ -25,8 +27,6 @@ namespace DAL.Models
         public ICollection<CommissionSlot> CommisionSlots { get; set; } = new List<CommissionSlot>();
         public ICollection<ShopItem> ShopItems { get; set; } = new List<ShopItem>();
 
-        public ICollection<User> Followings { get; set; } = new List<User>();
-        public ICollection<User> Followers { get; set; } = new List<User>();
 
         [NotMapped]
         public IFormFile? ProfileImageFile { get; set; }

@@ -15,6 +15,7 @@ namespace BLL.DTO.User
         public string? Location { get; set; }
         public string? ProfileImage { get; set; }
         public string? BannerImage { get; set; }
+        public Guid RoleId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 

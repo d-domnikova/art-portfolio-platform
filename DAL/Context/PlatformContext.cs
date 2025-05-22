@@ -6,6 +6,7 @@ namespace DAL.Context
     public class PlatformContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<LikedPost> Like { get; set; }
@@ -18,12 +19,10 @@ namespace DAL.Context
         {
             //Users
             modelBuilder.Entity<User>()
-                .HasMany(u => u.Followers)
-                .WithOne();
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Followings)
-                .WithOne();
+                .HasOne(u => u.Role)
+                .WithMany(u => u.Users)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //LikedPosts
             modelBuilder.Entity<LikedPost>()
@@ -33,7 +32,7 @@ namespace DAL.Context
                 .HasOne(lp => lp.User)
                 .WithMany(u => u.LikedPosts)
                 .HasForeignKey(lp => lp.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<LikedPost>()
                 .HasOne(lp => lp.Post)
@@ -46,7 +45,7 @@ namespace DAL.Context
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Post)
@@ -58,7 +57,8 @@ namespace DAL.Context
             modelBuilder.Entity<Post>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Posts)
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Post>()
                 .HasMany(p => p.Categories)
@@ -68,7 +68,8 @@ namespace DAL.Context
             modelBuilder.Entity<CommissionSlot>()
                 .HasOne(cms => cms.User)
                 .WithMany(u => u.CommisionSlots)
-                .HasForeignKey(cms => cms.UserId);
+                .HasForeignKey(cms => cms.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CommissionSlot>()
                 .HasOne(cms => cms.Type)
@@ -79,7 +80,8 @@ namespace DAL.Context
             modelBuilder.Entity<ShopItem>()
                 .HasOne(i => i.User)
                 .WithMany(u => u.ShopItems)
-                .HasForeignKey(i => i.UserId);
+                .HasForeignKey(i => i.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ShopItem>()
                 .HasOne(i => i.Type)

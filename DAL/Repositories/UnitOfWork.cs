@@ -8,6 +8,7 @@ namespace DAL.Repositories
         private readonly PlatformContext _platformContext;
 
         public IUserRepository UserRepository { get; }
+        public IRoleRepository RoleRepository { get; }
         public IPostRepository PostRepository { get; }
         public ICategoryRepository CategoryRepository { get; }
         public ILikedPostRepository LikedPostRepository { get; }
@@ -16,12 +17,13 @@ namespace DAL.Repositories
         public IShopTypeRepository ShopTypeRepository { get; }
         public ICommissionSlotRepository CommissionSlotRepository { get; }
 
-        public UnitOfWork(PlatformContext platformContext, IUserRepository userRepository, IPostRepository postRepository, 
+        public UnitOfWork(PlatformContext platformContext, IUserRepository userRepository, IRoleRepository roleRepository, IPostRepository postRepository, 
             ICategoryRepository categoryRepository, ILikedPostRepository likedPostRepository, ICommentRepository commentRepository, 
             IShopItemRepository shopItemRepository, IShopTypeRepository shopTypeRepository, ICommissionSlotRepository commissionSlotRepository)
         {
             _platformContext = platformContext;
             UserRepository = userRepository;
+            RoleRepository = roleRepository;
             PostRepository = postRepository;
             CategoryRepository = categoryRepository;
             LikedPostRepository = likedPostRepository;
