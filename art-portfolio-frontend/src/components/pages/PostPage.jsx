@@ -9,6 +9,7 @@ import DeleteModal from "../modals/DeleteModal";
 import { useParams, useNavigate } from "react-router";
 import ThreeDots from "../icons/ThreeDots";
 import HeartFill from "../icons/HeartFill";
+import ImageFullScreen from "../modals/ImageFullScreen";
 
 export default function PostPage(){
     const { id } = useParams()
@@ -95,8 +96,6 @@ export default function PostPage(){
                 { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}})
             }
 
-            const fullMode =(e)=>{}
-
     return(
         <>
         <UserCardMobile id={user.id} username={user.username} nickname={user.nickname} 
@@ -104,7 +103,7 @@ export default function PostPage(){
         <div className="md:grid md:grid-cols-4 my-4">
             <div className="col-span-3 space-y-4">
                 <div className="w-full min-h-70 max-h-150 rounded-xl flex justify-center">
-                    <img src={post.imageSrc} className="min-h-70 max-h-150 cursor-pointer" onClick={fullMode}/>
+                    <ImageFullScreen imageUrl={post.imageSrc}/>
                 </div>
                 <div className="relative">
                 <h1 className="font-bold text-2xl">{post.title}</h1>
@@ -127,7 +126,7 @@ export default function PostPage(){
                 <p className="text-xl text-white font-bold">Comments</p>
                 
                 <form className="relative w-full min-h-20 flex justify-between space-x-2" onSubmit={handleSubmit}>
-                    <div className="mt-4 size-12 bg-red-200/40 rounded-full">
+                    <div className="mt-4 size-12 rounded-full">
                         <img src={ profileImage != null ? profileImage : "/defaultImages/ProfilePicture.png"} className="object-cover object-center"/>
                     </div>
                     <textarea name="commentBody" value={newComment.commentBody} onChange={handleChange} 

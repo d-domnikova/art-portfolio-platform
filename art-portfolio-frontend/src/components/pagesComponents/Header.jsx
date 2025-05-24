@@ -2,56 +2,47 @@ import { Popover, PopoverButton, PopoverPanel} from '@headlessui/react';
 import { useLocation } from "react-router";
 import SearchBar from "./SearchBar";
 import Add from '../icons/Add';
+import MobileNav from './MobileNav';
 
 export default function Header({isLoggedIn}){
     const location = useLocation();
     const user = localStorage.getItem("username");
     const profileImage = localStorage.getItem("profileImageSrc");
 
+    const links = [
+        { href: '/explore', label: 'Explore' },
+        { href: '/commissions', label: 'Commissions' },
+        { href: '/shop', label: 'Shop' },
+    ]
+
     return(
         <>
         <nav className={location.pathname == "/sign-up" || location.pathname == "/login"? 
-                        "hidden" : "bg-smoky fixed w-full z-50 top-0 start-0 border-b border-bone font-medium"}>
+                        "hidden" : "bg-smoky fixed w-full z-20 top-0 start-0 border-b border-bone font-medium"}>
             <div className="max-w-screen-2xl flex items-center justify-between mx-auto md:max-lg:px-2 px-4 py-3 text-white">
                 <div className="flex items-center justify-start">
-                <div className="flex space-x-4">
-                    <button type="button" className="inline-flex p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:ring-2">
-                        <span className="sr-only">Open main menu</span>
-                        <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                            <path stroke="#cacab9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 1h15M1 7h15M1 13h15"/>
-                        </svg>
-                    </button>
+                    <div className="flex space-x-4">
+                    <MobileNav />
                     <a href="/" className="flex items-center space-x-3">
                         <img src={"/defaultImages/LogoFull.png"} className="h-12 md:max-lg:h-10" alt='ArtFocus'/>
                     </a>
                 </div>
-            <div className="justify-between hidden md:flex md:order-1" id="navbar-sticky">
+            <div className="flex justify-between md:order-1">
                 <ul className="text-sm flex flex-col w-full md:flex-row lg:w-auto p-4 md:p-0 ml-8 space-x-4 xl:space-x-8">
-                    <li className="text-center pt-2">
-                        <HeaderButtons text="Explore" url="/explore"/>
-                    </li>
-                    <li className="text-center pt-2">
-                        <HeaderButtons text="Commissions" url="/commissions"/>
-                    </li>
-                    <li className="text-center pt-2">
-                        <HeaderButtons text="Shop" url="/shop"/>
-                    </li>
-                    <li className="sm:flex">
+                    {links.map((link) => (
+                        <li key={link.href} className="hidden lg:flex text-center pt-2"> <HeaderButtons text={link.label} url={link.href}/> </li>
+                    ))}
+                    <li className="hidden md:flex">
                         <SearchBar />
                     </li>
-                    { isLoggedIn && (
-                        <>
-                            <li className="text-center pt-2">
-                                <a href='/post/create' className="mt-2 text-white bg-cardinal/40 hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">
-                               <Add /> Add post </a>
-                            </li>
-                        </>
-                    )}
                 </ul>
             </div>
             </div>
              { isLoggedIn ? (
                         <div className="flex md:order-2">
+                            <a href='/post/create' className="mr-8 my-1 text-white bg-cardinal/40 hover:bg-red-800/75 rounded-3xl px-4 py-2 text-center block">
+                                <Add /><span className='hidden sm:inline'>Add post</span>
+                            </a>
                             <Popover className="relative">
                                 <PopoverButton className="mr-8 size-10 rounded-full hover:outline-2 hover:outline-offset-2 hover:outline-cardinal">
                                     <img src={ profileImage != null ? profileImage : "/defaultImages/ProfilePicture.png"} className="object-cover object-center"/>
@@ -75,7 +66,7 @@ export default function Header({isLoggedIn}){
                     )}
             </div>
         </nav>
-        <div className="pt-20"></div>
+        <div className="pt-20" />
         </>
     )
 }

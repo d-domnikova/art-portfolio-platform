@@ -20,7 +20,7 @@ export default function Comment(props){
     return(
         <div className="bg-cardinal/20 w-full min-h-20 rounded-xl text-white">
             <div className="flex justify-start space-x-3">
-                <div className="mt-4 ml-2 size-12 bg-red-200/40 rounded-full">
+                <div className="mt-4 ml-2 size-12 rounded-full">
                     <img src={user.profileImageSrc != null ? user.profileImageSrc :"/defaultImages/ProfilePicture.png"}/>
                 </div>
                 <div className="space-y-2 w-full">

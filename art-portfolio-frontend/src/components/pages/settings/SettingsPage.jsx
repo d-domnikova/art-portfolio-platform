@@ -1,9 +1,26 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
 import AccountSettings from './AccountSetting';
 import ProfileSettings from './ProfileSettings';
 
 export default function SettingsPage(){
     const id = localStorage.getItem("userId")
+    const navigate = useNavigate();
+
+    const handleClick = (id) => {
+          axios.delete(`https://localhost:7029/api/user/${id}`, 
+              { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}})
+          .then(response => {
+            console.log(response + `Deleted with ID ${id} succssfully deleted`);
+          })
+          .catch(error => {
+            console.error(error);
+        });
+    localStorage.clear();
+    navigate(`/`);
+    window.location.reload(false)
+    }
 
     return(
         <TabGroup vertical className="md:grid md:grid-cols-5">
@@ -30,7 +47,7 @@ export default function SettingsPage(){
                     <TabPanel className="w-[80%] md:w-[60%] md:ml-20 mt-4 space-y-3">
                         <h1 className="text-white font-bold text-2xl">Delete account</h1>
                         <p className='text-base/7'>Are you sure you want to delete your account? All data will be permamentely deleted. This action is unreversable.</p>
-                        <button type="button" onClick={() => handleClick(props.id)}
+                        <button type="button" onClick={() => handleClick(id)}
                             className="mt-2 w-full md:w-36 text-white text-lg bg-cardinal hover:bg-red-800/75 rounded-3xl px-5 py-2 text-center inline">
                             Delete
                         </button>
