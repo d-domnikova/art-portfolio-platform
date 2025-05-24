@@ -2,8 +2,8 @@ export default function UserCardMobile(props){
     return(
         <a href={"/user/" + props.username} className="md:hidden text-bone relative mt-4 block px-6 py-4 bg-cardinal/25 rounded-xl">
             <div className="flex justify-start">
-                <div className="mt-2 size-16 bg-red-200/40 rounded-full overflow-hidden">
-                    <img src={props.profileImageSrc} className="object-cover object-center"/>
+                <div className="mt-2 size-16 rounded-full overflow-hidden">
+                    <img src={props.profileImageSrc != null ? props.profileImageSrc :"/defaultImages/ProfilePicture.png"} className="object-cover object-center"/>
                 </div>
                 <div className="mb-4 ml-8">
                     <h1 className="text-white font-bold text-lg">{props.nickname != undefined && props.nickname}</h1>
@@ -16,7 +16,10 @@ export default function UserCardMobile(props){
                 <p>{props.website != undefined && props.website}</p>
                 <a href="/shop" className="hover:text-white hover:underline">Shop</a>
             </div>
-        <button className="absolute right-8 top-4 text-white font-semibold bg-cardinal hover:bg-red-800/75 hover:ring-1 rounded-3xl px-5 py-2 text-center">Follow</button>   
+            {localStorage.getItem("userId") != props.id ?
+                 <button className="absolute right-8 top-4 font-semibold bg-cardinal hover:bg-red-800/75 hover:ring-1 text-white rounded-3xl px-5 py-2 text-center">Follow</button>    :
+            <a href="/settings" className="absolute right-8 top-4 font-semibold tracking-wide border hover:bg-red-800/50 text-white rounded-3xl px-5 py-2 text-center">Edit profile</a>
+            }
         </a>
     )
 }

@@ -1,8 +1,8 @@
 export default function UserCard(props){
     return(
          <a href={"/user/" + props.username} className="hidden md:block md:fixed bg-cardinal/25 h-[88%] px-6 rounded-xl text-bone w-78 top-20 right-4 space-y-2 mx-auto overflow-y-auto overscrol-y-contain">
-            <div className="mt-4 md:size-36 size-16 bg-red-200/40 rounded-full justify-self-center overflow-hidden">
-                <img src={props.profileImageSrc} className="object-cover object-center"/>
+            <div className="mt-4 md:size-36 size-16 rounded-full justify-self-center overflow-hidden">
+                <img src={props.profileImageSrc != null ? props.profileImageSrc :"/defaultImages/ProfilePicture.png"} className="object-cover object-center"/>
             </div>
             <h1 className="text-white font-bold text-2xl justify-self-center">{props.nickname}</h1>
             <p className="justify-self-center pb-4">@{props.username}</p>

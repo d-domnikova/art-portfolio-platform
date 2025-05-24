@@ -33,10 +33,6 @@ namespace BLL.Services
         {
             var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
             if (user == null) return;
-            if (!Argon2.Verify(user.PasswordHash, updateUser.Password))
-            {
-                user.PasswordHash = Argon2.Hash(updateUser.Password);
-            }
 
             _mapper.Map(updateUser, user);
             user.UpdatedAt = DateTime.UtcNow;

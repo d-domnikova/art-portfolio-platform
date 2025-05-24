@@ -18,6 +18,7 @@ export default function PostPage(){
     const [likes, setLikes] = useState([]);
     const [temp, setTemp] = useState({});
     const [comments, setComments] = useState([]);
+    const profileImage = localStorage.getItem("profileImageSrc");
 
     const [newComment, setNewComment] = useState({
         commentBody: ""
@@ -39,6 +40,7 @@ export default function PostPage(){
 
         axios.get(`https://localhost:7029/api/post/${id}/comments`)
        .then(response => {
+            response.data.sort((a, b) => (Date.parse(b.createdAt) - Date.parse(a.createdAt)));
             setComments(response.data);
         })
         .catch(error => {
@@ -126,7 +128,7 @@ export default function PostPage(){
                 
                 <form className="relative w-full min-h-20 flex justify-between space-x-2" onSubmit={handleSubmit}>
                     <div className="mt-4 size-12 bg-red-200/40 rounded-full">
-                        <img/>
+                        <img src={ profileImage != null ? profileImage : "/defaultImages/ProfilePicture.png"} className="object-cover object-center"/>
                     </div>
                     <textarea name="commentBody" value={newComment.commentBody} onChange={handleChange} 
                             className="p-4 pr-20 mt-2 w-full border border-bone rounded-xl outline-hidden resize-none focus:ring placeholder:text-bone/80 md:placeholder:text-lg" 

@@ -64,6 +64,7 @@ export default function AuthForm(){
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("username", response.data.user.username);
             localStorage.setItem("userId", response.data.user.id);
+            localStorage.setItem("profileImageSrc", response.profileImageSrc);
             localStorage.setItem("isLoggedIn", true);
             axios.get({headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}});
             navigate("/explore");
@@ -75,14 +76,14 @@ export default function AuthForm(){
     return (
     <div className="md:grid md:grid-cols-7 h-full gap-3 w-full h-full">
         <div className="bg-cardinal col-span-3 -mx-8 -mt-20 h-24 md:h-screen -mb-8">
-            <a href="/" className="inline-block items-center mx-6 mt-4">
-                        <span className="self-center text-white text-xl font-semibold xl:text-2xl hover:text-smoky/40">ArtFocus</span>
+            <a href="/" className="inline-block items-center mx-8 mt-6">
+                        <span className="self-center text-white font-splash text-3xl hover:text-smoky/40">ArtFocus</span>
                     </a>
             <img src="/"/>
         </div>
         <div className="col-span-4 h-full flex flex-col items-start">
-            <form className="m-auto w-[80%] md:w-[50%] flex flex-col justify-start space-y-5 pt-8 pb-6" autocomplete="off" onSubmit={handleSubmit}> 
-                <h1 className="text-bone font-bold text-3xl">Log In</h1>
+            <form className="m-auto w-[80%] lg:w-[50%] flex flex-col justify-start space-y-5 pt-8 pb-6" autocomplete="off" onSubmit={handleSubmit}> 
+                <h1 className="text-bone font-bold text-3xl pt-12 md:pt-0">Log In</h1>
                 <p className="-mt-1">Please log in to continue</p>
                 <input type="text" name='credential' value={login.credential} onChange={handleChange} 
                         className="block py-2 px-4 border border-bone lg:text-lg rounded-lg placeholder:text-bone/80 focus:ring" placeholder="Username or email" required/>

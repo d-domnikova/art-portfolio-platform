@@ -15,6 +15,7 @@ export default function UserProfile() {
     useEffect(() => {
         axios.get(`https://localhost:7029/api/post/`)
         .then(response => {
+             response.data.sort((a, b) => (Date.parse(b.createdAt) - Date.parse(a.createdAt)));
              setPosts(response.data);
          })
          .catch(error => {
@@ -37,9 +38,9 @@ export default function UserProfile() {
 
     return (
         <div className="md:grid md:grid-cols-5">
-            <div src="https://placehold.co/320x320" className="md:col-span-4">
+            <div className="md:col-span-4">
                 <div className="bg-cardinal w-full aspect-4/1 rounded-xl overflow-hidden">
-                    <img src={user.bannerImageSrc} className="object-cover object-center"/>
+                    <img src={user.bannerImageSrc != null ? user.bannerImageSrc : "/defaultImages/BannerPlaceholder.png"} className="object-cover object-center"/>
                 </div>
                 <UserCardMobile id={user.id} profileImageSrc={user.profileImageSrc} username={user.username} nickname={user.nickname} 
                         location={user.location} website={user.website} biography={user.biography}/>
